@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { DeepPartial } from 'typeorm';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { DeepPartial, In } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { ProductService } from './product.service';
 import { Public } from 'src/decorators/public.decorator';
@@ -11,45 +11,51 @@ export class ProductController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.productService.findAll();
-  }
-
-  @Public()
-  @Get(':categoryId')
-  findAllByCategory(@Param('categoryId') categoryId: number) {
+  findAll(
+    @Query('categories') _categories: number[],
+    @Query('published') published: boolean,
+  ) {
+    const categories = [_categories].flat().filter(Boolean).map(Number);
     return this.productService.findAll({
-      category: { id: categoryId}
+      category: categories?.length ? { id: In(categories) } : undefined,
+      status: published ? VisibilityStatus.Published : undefined,
     });
   }
 
   @Post(':categoryId')
-  create(@Param('categoryId') categoryId: number, @Body() dto: DeepPartial<ProductEntity>) {
+  create(
+    @Param('categoryId') categoryId: number,
+    @Body() dto: DeepPartial<ProductEntity>,
+  ) {
     return this.productService.create({
       ...dto,
       category: {
-        id: categoryId
-      }
+        id: categoryId,
+      },
     });
   }
 
   @Put(':id')
   update(@Param('id') id: number, @Body() dto: DeepPartial<ProductEntity>) {
-    return this.productService.update(id, dto)
+    return this.productService.update(id, dto);
   }
 
   @Put(':id/publish')
   publish(@Param('id') id: number) {
-    return this.productService.update(id, { status: VisibilityStatus.Published})
+    return this.productService.update(id, {
+      status: VisibilityStatus.Published,
+    });
   }
 
   @Put(':id/draft')
   draft(@Param('id') id: number) {
-    return this.productService.update(id, { status: VisibilityStatus.Draft})
+    return this.productService.update(id, { status: VisibilityStatus.Draft });
   }
 
   @Put(':id/archive')
   archive(@Param('id') id: number) {
-    return this.productService.update(id, { status: VisibilityStatus.Archived})
+    return this.productService.update(id, {
+      status: VisibilityStatus.Archived,
+    });
   }
 }

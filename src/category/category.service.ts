@@ -12,16 +12,27 @@ export class CategoryService {
 
   findAll(where?: FindOptionsWhere<CategoryEntity>) {
     return this.categoryRepository.find({
-      where
+      where,
+      relations: {
+        brand: true,
+      },
+    });
+  }
+
+  findOne(where?: FindOptionsWhere<CategoryEntity>) {
+    return this.categoryRepository.findOne({
+      where,
+      relations: {
+        brand: true,
+      },
     });
   }
 
   create(dto: DeepPartial<CategoryEntity>) {
-    console.log(dto)
     return this.categoryRepository.save(this.categoryRepository.create(dto));
   }
 
-  async update( id: number, dto: DeepPartial<CategoryEntity>) {
+  async update(id: number, dto: DeepPartial<CategoryEntity>) {
     return this.categoryRepository.update(id, dto);
   }
 }

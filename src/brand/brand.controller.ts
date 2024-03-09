@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { DeepPartial } from 'typeorm';
 import { BrandEntity } from './brand.entity';
@@ -11,8 +11,10 @@ export class BrandController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.brandService.findAll();
+  findAll(@Query('published') published: boolean) {
+    return this.brandService.findAll({
+      status: published ? VisibilityStatus.Published : undefined,
+    });
   }
 
   @Post()
@@ -22,21 +24,21 @@ export class BrandController {
 
   @Put(':id')
   update(@Param('id') id: number, @Body() dto: DeepPartial<BrandEntity>) {
-    return this.brandService.update(id, dto)
+    return this.brandService.update(id, dto);
   }
 
   @Put(':id/publish')
   publish(@Param('id') id: number) {
-    return this.brandService.update(id, { status: VisibilityStatus.Published})
+    return this.brandService.update(id, { status: VisibilityStatus.Published });
   }
 
   @Put(':id/draft')
   draft(@Param('id') id: number) {
-    return this.brandService.update(id, { status: VisibilityStatus.Draft})
+    return this.brandService.update(id, { status: VisibilityStatus.Draft });
   }
 
   @Put(':id/archive')
   archive(@Param('id') id: number) {
-    return this.brandService.update(id, { status: VisibilityStatus.Archived})
+    return this.brandService.update(id, { status: VisibilityStatus.Archived });
   }
 }

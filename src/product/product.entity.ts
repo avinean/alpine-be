@@ -20,6 +20,15 @@ export class ProductEntity {
   @Column()
   description: string;
 
+  @Column()
+  size: string;
+
+  @Column()
+  application: string;
+
+  @Column()
+  standart: string;
+
   @Column({ nullable: true })
   image: string;
 
@@ -29,9 +38,9 @@ export class ProductEntity {
   @Column({
     type: 'enum',
     enum: VisibilityStatus,
-    default: VisibilityStatus.Draft
+    default: VisibilityStatus.Draft,
   })
-  status: VisibilityStatus
+  status: VisibilityStatus;
 
   @CreateDateColumn()
   createdAt: Date;

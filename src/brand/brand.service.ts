@@ -10,16 +10,16 @@ export class BrandService {
     private readonly brandRepository: Repository<BrandEntity>,
   ) {}
 
-  findAll() {
-    return this.brandRepository.find();
+  findAll(where?: FindOptionsWhere<BrandEntity>) {
+    return this.brandRepository.find({ where });
   }
 
   create(dto: DeepPartial<BrandEntity>) {
-    console.log(dto)
+    console.log(dto);
     return this.brandRepository.save(this.brandRepository.create(dto));
   }
 
-  async update( id: number, dto: DeepPartial<BrandEntity>) {
+  async update(id: number, dto: DeepPartial<BrandEntity>) {
     return this.brandRepository.update(id, dto);
   }
 }
