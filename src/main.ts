@@ -12,7 +12,7 @@ async function bootstrap() {
     next();
   });
 
-  await app.listen(5050);
+  await app.listen(process.env.PORT || 5050);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
