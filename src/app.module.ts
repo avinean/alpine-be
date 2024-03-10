@@ -30,6 +30,7 @@ import { BrandModule } from './brand/brand.module';
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
+      serveRoot: '/uploads',
       rootPath: join(__dirname, '..', 'uploads'),
       exclude: ['/api/(.*)'],
     }),
@@ -37,7 +38,7 @@ import { BrandModule } from './brand/brand.module';
     CategoryModule,
     ProductModule,
     UtilModule,
-    BrandModule
+    BrandModule,
   ],
   controllers: [AppController],
   providers: [
