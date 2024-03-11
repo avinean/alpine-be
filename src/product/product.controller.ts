@@ -13,12 +13,13 @@ export class ProductController {
   @Get()
   findAll(
     @Query('categories') _categories: number[],
-    @Query('published') published: boolean,
+    @Query('statuses') _statuses: [],
   ) {
+    const statuses = [_statuses].flat().filter(Boolean);
     const categories = [_categories].flat().filter(Boolean).map(Number);
     return this.productService.findAll({
       category: categories?.length ? { id: In(categories) } : undefined,
-      status: published ? VisibilityStatus.Published : undefined,
+      status: statuses?.length ? In(statuses) : undefined,
     });
   }
 

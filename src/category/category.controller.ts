@@ -13,12 +13,13 @@ export class CategoryController {
   @Get()
   findAll(
     @Query('brands') _brands: number[],
-    @Query('published') published: boolean,
+    @Query('statuses') _statuses: [],
   ) {
+    const statuses = [_statuses].flat().filter(Boolean);
     const brands = [_brands].flat().filter(Boolean).map(Number);
     return this.categoryService.findAll({
       brand: brands?.length ? { id: In(brands) } : undefined,
-      status: published ? VisibilityStatus.Published : undefined,
+      status: statuses?.length ? In(statuses) : undefined,
     });
   }
 

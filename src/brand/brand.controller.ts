@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { BrandService } from './brand.service';
-import { DeepPartial } from 'typeorm';
+import { DeepPartial, In } from 'typeorm';
 import { BrandEntity } from './brand.entity';
 import { Public } from 'src/decorators/public.decorator';
 import { VisibilityStatus } from 'src/types/enums';
@@ -11,9 +11,10 @@ export class BrandController {
 
   @Public()
   @Get()
-  findAll(@Query('published') published: boolean) {
+  findAll(@Query('statuses') _statuses: []) {
+    const statuses = [_statuses].flat().filter(Boolean);
     return this.brandService.findAll({
-      status: published ? VisibilityStatus.Published : undefined,
+      status: statuses?.length ? In(statuses) : undefined,
     });
   }
 
