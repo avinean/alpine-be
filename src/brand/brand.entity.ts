@@ -1,6 +1,5 @@
 import { CategoryEntity } from 'src/category/category.entity';
-import { ProductEntity } from 'src/product/product.entity';
-import { VisibilityStatus } from 'src/types/enums';
+import { BrandType, VisibilityStatus } from 'src/types/enums';
 import {
   Column,
   CreateDateColumn,
@@ -15,21 +14,28 @@ export class BrandEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column({ nullable: true })
   image: string;
 
-  @Column({ 
+  @Column({
+    type: 'enum',
+    enum: BrandType,
+    default: BrandType.Product,
+  })
+  type: BrandType;
+
+  @Column({
     type: 'enum',
     enum: VisibilityStatus,
-    default: VisibilityStatus.Draft
+    default: VisibilityStatus.Draft,
   })
-  status: VisibilityStatus
+  status: VisibilityStatus;
 
   @CreateDateColumn()
   createdAt: Date;
