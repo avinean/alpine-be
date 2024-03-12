@@ -38,6 +38,9 @@ export class ProductEntity {
   @Column()
   price: number;
 
+  @Column({ nullable: true })
+  tags: string;
+
   @Column({
     type: 'enum',
     enum: VisibilityStatus,
