@@ -17,6 +17,9 @@ export class CategoryEntity {
   id: number;
 
   @Column()
+  slug: string;
+
+  @Column()
   title: string;
 
   @Column()

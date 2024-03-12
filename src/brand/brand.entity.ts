@@ -14,7 +14,10 @@ export class BrandEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
+  @Column()
+  slug: string;
+
+  @Column({ unique: true })
   title: string;
 
   @Column({ nullable: true })

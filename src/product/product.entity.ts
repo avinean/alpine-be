@@ -15,6 +15,9 @@ export class ProductEntity {
   id: number;
 
   @Column()
+  slug: string;
+
+  @Column()
   title: string;
 
   @Column()
