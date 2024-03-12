@@ -35,7 +35,7 @@ export class ProductEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column()
+  @Column({ type: 'float' })
   price: number;
 
   @Column({ nullable: true })
