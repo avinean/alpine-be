@@ -9,23 +9,7 @@ export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
-  ) {
-    this.init();
-  }
-
-  async init() {
-    const all = await this.productRepository.find({
-      relations: ['category'],
-    });
-    this.productRepository.save(
-      all.map((product) => ({
-        ...product,
-        slug: slugify([product.title, product.category.id].join('-'), {
-          lower: true,
-        }),
-      })),
-    );
-  }
+  ) {}
 
   findAll(where?: FindOptionsWhere<ProductEntity>) {
     return this.productRepository.find({

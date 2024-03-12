@@ -9,19 +9,7 @@ export class BrandService {
   constructor(
     @InjectRepository(BrandEntity)
     private readonly brandRepository: Repository<BrandEntity>,
-  ) {
-    this.init();
-  }
-
-  async init() {
-    const all = await this.brandRepository.find();
-    this.brandRepository.save(
-      all.map((product) => ({
-        ...product,
-        slug: slugify(product.title, { lower: true }),
-      })),
-    );
-  }
+  ) {}
 
   findAll(where?: FindOptionsWhere<BrandEntity>) {
     return this.brandRepository.find({ where });

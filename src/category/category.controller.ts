@@ -24,11 +24,12 @@ export class CategoryController {
   }
 
   @Public()
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.categoryService.findOne({
-      id,
-    });
+  @Get(':idOrSlug')
+  findOne(@Param('idOrSlug') idOrSlug: number | string) {
+    return this.categoryService.findOne([
+      { id: idOrSlug as number },
+      { slug: idOrSlug as string },
+    ]);
   }
 
   @Post(':brandId')

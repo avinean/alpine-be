@@ -9,23 +9,7 @@ export class CategoryService {
   constructor(
     @InjectRepository(CategoryEntity)
     private readonly categoryRepository: Repository<CategoryEntity>,
-  ) {
-    this.init();
-  }
-
-  async init() {
-    const all = await this.categoryRepository.find({
-      relations: ['brand'],
-    });
-    this.categoryRepository.save(
-      all.map((product) => ({
-        ...product,
-        slug: slugify([product.title, product.brand?.id].join('-'), {
-          lower: true,
-        }),
-      })),
-    );
-  }
+  ) {}
 
   findAll(where?: FindOptionsWhere<CategoryEntity>) {
     return this.categoryRepository.find({
@@ -36,7 +20,11 @@ export class CategoryService {
     });
   }
 
-  findOne(where?: FindOptionsWhere<CategoryEntity>) {
+  findOne(
+    where?:
+      | FindOptionsWhere<CategoryEntity>
+      | FindOptionsWhere<CategoryEntity>[],
+  ) {
     return this.categoryRepository.findOne({
       where,
       relations: {
