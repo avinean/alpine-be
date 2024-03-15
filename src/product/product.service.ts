@@ -14,6 +14,10 @@ export class ProductService {
   findAll(where?: FindOptionsWhere<ProductEntity>) {
     return this.productRepository.find({
       where,
+      relations: {
+        colors: true,
+        parameters: true,
+      },
     });
   }
 
@@ -26,7 +30,14 @@ export class ProductService {
     );
   }
 
-  async update(id: number, dto: DeepPartial<ProductEntity>) {
-    return this.productRepository.update(id, dto);
+  async update(
+    where: FindOptionsWhere<ProductEntity>,
+    params: DeepPartial<ProductEntity>,
+  ) {
+    const product = await this.productRepository.findOne({
+      where,
+    });
+    Object.assign(product, params);
+    return this.productRepository.save(product);
   }
 }

@@ -38,25 +38,39 @@ export class ProductController {
 
   @Put(':id')
   update(@Param('id') id: number, @Body() dto: DeepPartial<ProductEntity>) {
-    return this.productService.update(id, dto);
+    return this.productService.update(
+      {
+        id,
+      },
+      dto,
+    );
   }
 
   @Put(':id/publish')
   publish(@Param('id') id: number) {
-    return this.productService.update(id, {
-      status: VisibilityStatus.Published,
-    });
+    return this.productService.update(
+      { id },
+      {
+        status: VisibilityStatus.Published,
+      },
+    );
   }
 
   @Put(':id/draft')
   draft(@Param('id') id: number) {
-    return this.productService.update(id, { status: VisibilityStatus.Draft });
+    return this.productService.update(
+      { id },
+      { status: VisibilityStatus.Draft },
+    );
   }
 
   @Put(':id/archive')
   archive(@Param('id') id: number) {
-    return this.productService.update(id, {
-      status: VisibilityStatus.Archived,
-    });
+    return this.productService.update(
+      { id },
+      {
+        status: VisibilityStatus.Archived,
+      },
+    );
   }
 }

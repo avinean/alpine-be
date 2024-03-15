@@ -1,9 +1,13 @@
 import { CategoryEntity } from 'src/category/category.entity';
+import { ColorEntity } from 'src/color/color.entity';
+import { ParameterEntity } from 'src/parameter/parameter.entity';
 import { VisibilityStatus } from 'src/types/enums';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -56,4 +60,12 @@ export class ProductEntity {
 
   @ManyToOne(() => CategoryEntity, (category) => category.products)
   category: CategoryEntity;
+
+  @ManyToMany(() => ColorEntity)
+  @JoinTable()
+  colors: ColorEntity[];
+
+  @ManyToMany(() => ParameterEntity)
+  @JoinTable()
+  parameters: ParameterEntity[];
 }

@@ -14,6 +14,10 @@ import { ProductEntity } from './product/product.entity';
 import { UtilModule } from './util/util.module';
 import { BrandEntity } from './brand/brand.entity';
 import { BrandModule } from './brand/brand.module';
+import { ColorModule } from './color/color.module';
+import { ColorEntity } from './color/color.entity';
+import { ParameterModule } from './parameter/parameter.module';
+import { ParameterEntity } from './parameter/parameter.entity';
 
 @Module({
   imports: [
@@ -26,7 +30,13 @@ import { BrandModule } from './brand/brand.module';
       database: process.env.DB_NAME,
       logging: ['error'],
       // logger: 'debug',
-      entities: [CategoryEntity, ProductEntity, BrandEntity],
+      entities: [
+        CategoryEntity,
+        ProductEntity,
+        BrandEntity,
+        ColorEntity,
+        ParameterEntity,
+      ],
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
@@ -39,6 +49,8 @@ import { BrandModule } from './brand/brand.module';
     ProductModule,
     UtilModule,
     BrandModule,
+    ColorModule,
+    ParameterModule,
   ],
   controllers: [AppController],
   providers: [
