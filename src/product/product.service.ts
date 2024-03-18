@@ -17,6 +17,7 @@ export class ProductService {
       relations: {
         colors: true,
         parameters: true,
+        applications: true,
       },
     });
   }

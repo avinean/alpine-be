@@ -1,3 +1,4 @@
+import { ApplicationEntity } from 'src/application/application.entity';
 import { CategoryEntity } from 'src/category/category.entity';
 import { ColorEntity } from 'src/color/color.entity';
 import { ParameterEntity } from 'src/parameter/parameter.entity';
@@ -24,7 +25,7 @@ export class ProductEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 1000, default: '' })
   description: string;
 
   @Column()
@@ -33,7 +34,7 @@ export class ProductEntity {
   @Column()
   application: string;
 
-  @Column()
+  @Column({ nullable: true })
   standart: string;
 
   @Column({ nullable: true })
@@ -68,4 +69,8 @@ export class ProductEntity {
   @ManyToMany(() => ParameterEntity)
   @JoinTable()
   parameters: ParameterEntity[];
+
+  @ManyToMany(() => ApplicationEntity)
+  @JoinTable()
+  applications: ApplicationEntity[];
 }

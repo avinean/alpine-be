@@ -18,6 +18,8 @@ import { ColorModule } from './color/color.module';
 import { ColorEntity } from './color/color.entity';
 import { ParameterModule } from './parameter/parameter.module';
 import { ParameterEntity } from './parameter/parameter.entity';
+import { ApplicationModule } from './application/application.module';
+import { ApplicationEntity } from './application/application.entity';
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import { ParameterEntity } from './parameter/parameter.entity';
         BrandEntity,
         ColorEntity,
         ParameterEntity,
+        ApplicationEntity,
       ],
       synchronize: true,
     }),
@@ -51,6 +54,7 @@ import { ParameterEntity } from './parameter/parameter.entity';
     BrandModule,
     ColorModule,
     ParameterModule,
+    ApplicationModule,
   ],
   controllers: [AppController],
   providers: [
