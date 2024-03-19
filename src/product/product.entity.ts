@@ -31,7 +31,7 @@ export class ProductEntity {
   @Column()
   size: string;
 
-  @Column()
+  @Column({ nullable: true })
   application: string;
 
   @Column({ nullable: true })
