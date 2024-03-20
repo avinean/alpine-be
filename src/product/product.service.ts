@@ -9,9 +9,34 @@ export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
-  ) { }
-  
-  
+  ) {
+    this.refresh();
+  }
+
+  async refresh() {
+    const products = await this.productRepository.find({
+      relations: {
+        category: {
+          brand: true,
+        },
+        brand: true,
+      },
+    });
+
+    products.forEach(async (product) => {
+      if (!product.brand) {
+        console.log('product', product.brand);
+        console.log('product', product.category);
+        console.log('product', product.category?.brand);
+        const brand = product.category?.brand;
+        if (brand) {
+          product.brand = brand;
+          console.log('product', product.brand);
+          await this.productRepository.save(product);
+        }
+      }
+    });
+  }
 
   findAll(where?: FindOptionsWhere<ProductEntity>) {
     return this.productRepository.find({
