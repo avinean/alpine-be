@@ -1,9 +1,11 @@
+import { PriceEntity } from 'src/price/price.entity';
 import { ProductEntity } from 'src/product/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,

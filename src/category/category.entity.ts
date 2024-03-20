@@ -41,9 +41,6 @@ export class CategoryEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => BrandEntity, brand => brand.categories)
-  brand: BrandEntity
-
   @OneToMany(() => ProductEntity, (product) => product.category)
   products: ProductEntity[];
 }

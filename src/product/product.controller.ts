@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { DeepPartial, In } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { ProductService } from './product.service';
@@ -36,6 +45,11 @@ export class ProductController {
       },
       dto,
     );
+  }
+
+  @Post('delete/:id')
+  delete(@Param('id') id: number) {
+    return this.productService.delete({ id });
   }
 
   @Put(':id/publish')

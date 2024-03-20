@@ -37,6 +37,11 @@ export class CategoryController {
     return this.categoryService.update(id, dto);
   }
 
+  @Post('delete/:id')
+  delete(@Param('id') id: number) {
+    return this.categoryService.delete({ id });
+  }
+
   @Put(':id/publish')
   publish(@Param('id') id: number) {
     return this.categoryService.update(id, {

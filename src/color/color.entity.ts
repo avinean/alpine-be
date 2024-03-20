@@ -1,3 +1,4 @@
+import { PriceEntity } from 'src/price/price.entity';
 import { ProductEntity } from 'src/product/product.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -36,4 +38,7 @@ export class ColorEntity {
   @ManyToMany(() => ProductEntity)
   @JoinTable()
   products: ProductEntity[];
+
+  @OneToMany(() => PriceEntity, (price) => price.color)
+  prices: PriceEntity[];
 }

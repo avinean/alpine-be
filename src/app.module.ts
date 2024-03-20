@@ -24,6 +24,8 @@ import { ContactModule } from './contact/contact.module';
 import { ContactEntity } from './contact/contact.entity';
 import { ServiceEntity } from './service/service.entity';
 import { ServiceModule } from './service/service.module';
+import { PriceModule } from './price/price.module';
+import { PriceEntity } from './price/price.entity';
 
 @Module({
   imports: [
@@ -45,6 +47,7 @@ import { ServiceModule } from './service/service.module';
         ApplicationEntity,
         ContactEntity,
         ServiceEntity,
+        PriceEntity,
       ],
       synchronize: true,
     }),
@@ -63,6 +66,7 @@ import { ServiceModule } from './service/service.module';
     ApplicationModule,
     ContactModule,
     ServiceModule,
+    PriceModule,
   ],
   controllers: [AppController],
   providers: [

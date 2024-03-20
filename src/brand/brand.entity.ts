@@ -47,9 +47,6 @@ export class BrandEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => CategoryEntity, (category) => category.brand)
-  categories: CategoryEntity[];
-
   @OneToMany(() => ProductEntity, (product) => product.brand)
   products: ProductEntity[];
 }

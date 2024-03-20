@@ -28,6 +28,11 @@ export class BrandController {
     return this.brandService.update(id, dto);
   }
 
+  @Post('delete/:id')
+  delete(@Param('id') id: number) {
+    return this.brandService.delete({ id });
+  }
+
   @Put(':id/publish')
   publish(@Param('id') id: number) {
     return this.brandService.update(id, { status: VisibilityStatus.Published });

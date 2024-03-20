@@ -3,6 +3,7 @@ import { BrandEntity } from 'src/brand/brand.entity';
 import { CategoryEntity } from 'src/category/category.entity';
 import { ColorEntity } from 'src/color/color.entity';
 import { ParameterEntity } from 'src/parameter/parameter.entity';
+import { PriceEntity } from 'src/price/price.entity';
 import { VisibilityStatus } from 'src/types/enums';
 import {
   Column,
@@ -11,6 +12,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -41,7 +43,7 @@ export class ProductEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', nullable: true })
   price: number;
 
   @Column({ nullable: true })
@@ -77,4 +79,9 @@ export class ProductEntity {
   @ManyToMany(() => ApplicationEntity)
   @JoinTable()
   applications: ApplicationEntity[];
+
+  @OneToMany(() => PriceEntity, (price) => price.product, {
+    cascade: true,
+  })
+  prices: PriceEntity[];
 }
