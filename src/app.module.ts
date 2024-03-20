@@ -20,6 +20,10 @@ import { ParameterModule } from './parameter/parameter.module';
 import { ParameterEntity } from './parameter/parameter.entity';
 import { ApplicationModule } from './application/application.module';
 import { ApplicationEntity } from './application/application.entity';
+import { ContactModule } from './contact/contact.module';
+import { ContactEntity } from './contact/contact.entity';
+import { ServiceEntity } from './service/service.entity';
+import { ServiceModule } from './service/service.module';
 
 @Module({
   imports: [
@@ -39,6 +43,8 @@ import { ApplicationEntity } from './application/application.entity';
         ColorEntity,
         ParameterEntity,
         ApplicationEntity,
+        ContactEntity,
+        ServiceEntity,
       ],
       synchronize: true,
     }),
@@ -55,6 +61,8 @@ import { ApplicationEntity } from './application/application.entity';
     ColorModule,
     ParameterModule,
     ApplicationModule,
+    ContactModule,
+    ServiceModule,
   ],
   controllers: [AppController],
   providers: [
