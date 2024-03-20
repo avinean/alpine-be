@@ -23,17 +23,9 @@ export class ProductController {
     });
   }
 
-  @Post(':categoryId')
-  create(
-    @Param('categoryId') categoryId: number,
-    @Body() dto: DeepPartial<ProductEntity>,
-  ) {
-    return this.productService.create({
-      ...dto,
-      category: {
-        id: categoryId,
-      },
-    });
+  @Post()
+  create(@Body() dto: DeepPartial<ProductEntity>) {
+    return this.productService.create(dto);
   }
 
   @Put(':id')

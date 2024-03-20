@@ -1,4 +1,5 @@
 import { CategoryEntity } from 'src/category/category.entity';
+import { ProductEntity } from 'src/product/product.entity';
 import { BrandType, VisibilityStatus } from 'src/types/enums';
 import {
   Column,
@@ -48,4 +49,7 @@ export class BrandEntity {
 
   @OneToMany(() => CategoryEntity, (category) => category.brand)
   categories: CategoryEntity[];
+
+  @OneToMany(() => ProductEntity, (product) => product.brand)
+  products: ProductEntity[];
 }

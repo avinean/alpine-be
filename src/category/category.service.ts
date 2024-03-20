@@ -12,12 +12,7 @@ export class CategoryService {
   ) {}
 
   findAll(where?: FindOptionsWhere<CategoryEntity>) {
-    return this.categoryRepository.find({
-      where,
-      relations: {
-        brand: true,
-      },
-    });
+    return this.categoryRepository.find({ where });
   }
 
   findOne(
@@ -25,19 +20,14 @@ export class CategoryService {
       | FindOptionsWhere<CategoryEntity>
       | FindOptionsWhere<CategoryEntity>[],
   ) {
-    return this.categoryRepository.findOne({
-      where,
-      relations: {
-        brand: true,
-      },
-    });
+    return this.categoryRepository.findOne({ where });
   }
 
   create(dto: DeepPartial<CategoryEntity>) {
     return this.categoryRepository.save(
       this.categoryRepository.create({
         ...dto,
-        slug: slugify([dto.title, dto.brand.id].join('-'), { lower: true }),
+        slug: slugify(dto.title, { lower: true }),
       }),
     );
   }

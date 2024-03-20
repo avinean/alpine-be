@@ -11,14 +11,9 @@ export class CategoryController {
 
   @Public()
   @Get()
-  findAll(
-    @Query('brands') _brands: number[],
-    @Query('statuses') _statuses: [],
-  ) {
+  findAll(@Query('statuses') _statuses: []) {
     const statuses = [_statuses].flat().filter(Boolean);
-    const brands = [_brands].flat().filter(Boolean).map(Number);
     return this.categoryService.findAll({
-      brand: brands?.length ? { id: In(brands) } : undefined,
       status: statuses?.length ? In(statuses) : undefined,
     });
   }
@@ -32,17 +27,9 @@ export class CategoryController {
     ]);
   }
 
-  @Post(':brandId')
-  create(
-    @Param('brandId') brandId: number,
-    @Body() dto: DeepPartial<CategoryEntity>,
-  ) {
-    return this.categoryService.create({
-      ...dto,
-      brand: {
-        id: brandId,
-      },
-    });
+  @Post()
+  create(@Body() dto: DeepPartial<CategoryEntity>) {
+    return this.categoryService.create(dto);
   }
 
   @Put(':id')

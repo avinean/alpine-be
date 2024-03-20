@@ -9,12 +9,16 @@ export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
-  ) {}
+  ) { }
+  
+  
 
   findAll(where?: FindOptionsWhere<ProductEntity>) {
     return this.productRepository.find({
       where,
       relations: {
+        category: true,
+        brand: true,
         colors: true,
         parameters: true,
         applications: true,
@@ -26,7 +30,7 @@ export class ProductService {
     return this.productRepository.save(
       this.productRepository.create({
         ...dto,
-        slug: slugify([dto.title, dto.category.id].join('-'), { lower: true }),
+        slug: slugify(dto.title, { lower: true }),
       }),
     );
   }

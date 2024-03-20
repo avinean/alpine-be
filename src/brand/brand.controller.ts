@@ -3,7 +3,7 @@ import { BrandService } from './brand.service';
 import { DeepPartial, In } from 'typeorm';
 import { BrandEntity } from './brand.entity';
 import { Public } from 'src/decorators/public.decorator';
-import { BrandType, VisibilityStatus } from 'src/types/enums';
+import { VisibilityStatus } from 'src/types/enums';
 
 @Controller('brand')
 export class BrandController {
@@ -11,11 +11,10 @@ export class BrandController {
 
   @Public()
   @Get()
-  findAll(@Query('type') type: BrandType, @Query('statuses') _statuses: []) {
+  findAll(@Query('statuses') _statuses: []) {
     const statuses = [_statuses].flat().filter(Boolean);
     return this.brandService.findAll({
       status: statuses?.length ? In(statuses) : undefined,
-      type,
     });
   }
 

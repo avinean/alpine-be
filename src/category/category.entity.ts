@@ -28,12 +28,12 @@ export class CategoryEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ 
+  @Column({
     type: 'enum',
     enum: VisibilityStatus,
-    default: VisibilityStatus.Draft
+    default: VisibilityStatus.Draft,
   })
-  status: VisibilityStatus
+  status: VisibilityStatus;
 
   @CreateDateColumn()
   createdAt: Date;
