@@ -43,9 +43,6 @@ export class ProductEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ type: 'float', nullable: true })
-  price: number;
-
   @Column({ nullable: true })
   tags: string;
 
@@ -67,14 +64,6 @@ export class ProductEntity {
 
   @ManyToOne(() => BrandEntity, (brand) => brand.products)
   brand: BrandEntity;
-
-  @ManyToMany(() => ColorEntity)
-  @JoinTable()
-  colors: ColorEntity[];
-
-  @ManyToMany(() => ParameterEntity)
-  @JoinTable()
-  parameters: ParameterEntity[];
 
   @ManyToMany(() => ApplicationEntity)
   @JoinTable()

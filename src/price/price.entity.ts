@@ -16,7 +16,7 @@ export class PriceEntity {
   @PrimaryGeneratedColumn()
   article: string;
 
-  @Column()
+  @Column({ type: 'float', nullable: true })
   price: number;
 
   @ManyToOne(() => ColorEntity, (color) => color.prices)

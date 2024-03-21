@@ -33,8 +33,4 @@ export class ParameterEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @ManyToOne(() => ProductEntity)
-  @JoinTable()
-  products: ProductEntity[];
 }

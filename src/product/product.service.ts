@@ -24,8 +24,6 @@ export class ProductService {
         : {
             category: true,
             brand: true,
-            colors: true,
-            parameters: true,
             applications: true,
             prices: {
               color: true,
@@ -41,8 +39,6 @@ export class ProductService {
       relations: {
         category: true,
         brand: true,
-        colors: true,
-        parameters: true,
         applications: true,
         prices: {
           color: true,

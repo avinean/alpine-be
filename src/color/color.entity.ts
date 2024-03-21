@@ -35,10 +35,6 @@ export class ColorEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany(() => ProductEntity)
-  @JoinTable()
-  products: ProductEntity[];
-
   @OneToMany(() => PriceEntity, (price) => price.color)
   prices: PriceEntity[];
 }
