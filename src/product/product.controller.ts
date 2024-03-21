@@ -48,6 +48,52 @@ export class ProductController {
   }
 
   @Public()
+  @Get('page')
+  findAllByPage(
+    @Query('categories') _categories: string[],
+    @Query('statuses') _statuses: string[],
+    @Query('colors') _colors: string[],
+    @Query('parameters') _parameters: string[],
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ) {
+    const statuses = [_statuses].flat().filter(Boolean);
+    const categoriesSlugs = [_categories].flat().filter(Boolean).map(String);
+    const colors = [_colors].flat().filter(Boolean).map(String);
+    const parameters = [_parameters].flat().filter(Boolean).map(String);
+    console.log(colors);
+    return this.productService.findAllByPage(
+      {
+        category: [
+          ...(categoriesSlugs?.length ? [{ slug: In(categoriesSlugs) }] : []),
+        ],
+        status: statuses?.length ? In(statuses) : undefined,
+        prices: {
+          color: {
+            slug: colors?.length ? In(colors) : undefined,
+          },
+          parameters: {
+            slug: parameters?.length ? In(parameters) : undefined,
+          },
+        },
+      },
+      page,
+      take,
+    );
+  }
+
+  @Public()
+  @Get('filters')
+  findAllFilters(@Query('categories') _categories: string[]) {
+    const categoriesSlugs = [_categories].flat().filter(Boolean).map(String);
+    return this.productService.findAllFilters({
+      category: [
+        ...(categoriesSlugs?.length ? [{ slug: In(categoriesSlugs) }] : []),
+      ],
+    });
+  }
+
+  @Public()
   @Get(':slug')
   findOne(@Param('slug') slug: string) {
     return this.productService.findOne({ slug });

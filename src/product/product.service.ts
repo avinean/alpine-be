@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import slugify from 'slugify';
 import { PriceEntity } from 'src/price/price.entity';
 import { UtilService } from 'src/util/util.service';
+import { ColorEntity } from 'src/color/color.entity';
+import { ParameterEntity } from 'src/parameter/parameter.entity';
 
 @Injectable()
 export class ProductService {
@@ -16,7 +18,12 @@ export class ProductService {
     private readonly utilService: UtilService,
   ) {}
 
-  findAll(where: FindOptionsWhere<ProductEntity>, pure: boolean) {
+  findAll(
+    where: FindOptionsWhere<ProductEntity>,
+    pure: boolean = false,
+    page: number = 1,
+    take: number = 10,
+  ) {
     return this.productRepository.find({
       where,
       relations: pure
@@ -30,7 +37,55 @@ export class ProductService {
               parameters: true,
             },
           },
+      skip: (page - 1) * take,
+      take,
     });
+  }
+
+  async findAllByPage(
+    where: FindOptionsWhere<ProductEntity>,
+    page: number = 1,
+    take: number = 10,
+  ) {
+    const [items, total] = await this.productRepository.findAndCount({
+      where,
+      skip: (page - 1) * take,
+      take,
+    });
+
+    return {
+      items,
+      pages: Math.ceil(total / take),
+    };
+  }
+
+  async findAllFilters(where: FindOptionsWhere<ProductEntity>) {
+    const products = await this.productRepository.find({
+      where,
+      relations: {
+        prices: {
+          color: true,
+          parameters: true,
+        },
+      },
+    });
+
+    const prices = products.flatMap(({ prices }) => prices);
+
+    return {
+      colors: prices
+        ?.map((price) => price.color)
+        .reduce((acc, _) => {
+          if (acc.find((color) => color?.id === _?.id)) return acc;
+          return [...acc, _];
+        }, [] as ColorEntity[]),
+      parameters: prices
+        ?.flatMap((price) => price.parameters)
+        .reduce((acc, _) => {
+          if (acc.find((parameter) => parameter?.id === _?.id)) return acc;
+          return [...acc, _];
+        }, [] as ParameterEntity[]),
+    };
   }
 
   findOne(where?: FindOptionsWhere<ProductEntity>) {
