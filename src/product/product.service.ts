@@ -16,8 +16,27 @@ export class ProductService {
     private readonly utilService: UtilService,
   ) {}
 
-  findAll(where?: FindOptionsWhere<ProductEntity>) {
+  findAll(where: FindOptionsWhere<ProductEntity>, pure: boolean) {
     return this.productRepository.find({
+      where,
+      relations: pure
+        ? {}
+        : {
+            category: true,
+            brand: true,
+            colors: true,
+            parameters: true,
+            applications: true,
+            prices: {
+              color: true,
+              parameters: true,
+            },
+          },
+    });
+  }
+
+  findOne(where?: FindOptionsWhere<ProductEntity>) {
+    return this.productRepository.findOne({
       where,
       relations: {
         category: true,

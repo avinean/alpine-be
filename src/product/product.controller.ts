@@ -21,15 +21,36 @@ export class ProductController {
   @Public()
   @Get()
   findAll(
-    @Query('categories') _categories: number[],
+    @Query('categories') _categories: (number | string)[],
     @Query('statuses') _statuses: [],
+    @Query('pure') pure: boolean,
   ) {
     const statuses = [_statuses].flat().filter(Boolean);
-    const categories = [_categories].flat().filter(Boolean).map(Number);
-    return this.productService.findAll({
-      category: categories?.length ? { id: In(categories) } : undefined,
-      status: statuses?.length ? In(statuses) : undefined,
-    });
+    const categoriesSlugs = [_categories]
+      .flat()
+      .filter((c) => typeof c === 'string')
+      .map(String);
+    const categoriesIds = [_categories]
+      .flat()
+      .filter((c) => typeof c === 'number')
+      .map(Number);
+    console.log(categoriesSlugs, categoriesIds);
+    return this.productService.findAll(
+      {
+        category: [
+          ...(categoriesIds?.length ? [{ id: In(categoriesIds) }] : []),
+          ...(categoriesSlugs?.length ? [{ slug: In(categoriesSlugs) }] : []),
+        ],
+        status: statuses?.length ? In(statuses) : undefined,
+      },
+      pure,
+    );
+  }
+
+  @Public()
+  @Get(':slug')
+  findOne(@Param('slug') slug: string) {
+    return this.productService.findOne({ slug });
   }
 
   @Post()
