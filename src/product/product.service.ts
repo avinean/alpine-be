@@ -98,7 +98,10 @@ export class ProductService {
 
   async create(dto: DeepPartial<ProductEntity>) {
     const product = await this.productRepository.save(
-      this.productRepository.create(dto),
+      this.productRepository.create({
+        ...dto,
+        slug: slugify(dto.title, { lower: true }),
+      }),
     );
 
     product.slug = `${slugify(dto.title, { lower: true })}-${product.id}`;
