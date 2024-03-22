@@ -98,14 +98,11 @@ export class ProductService {
 
   async create(dto: DeepPartial<ProductEntity>) {
     const product = await this.productRepository.save(
-      this.productRepository.create({
-        ...dto,
-        slug: slugify(dto.title, { lower: true }),
-      }),
+      this.productRepository.create(dto),
     );
 
+    product.slug = `${slugify(dto.title, { lower: true })}-${product.id}`;
     product.prices = this.priceRepository.create(dto.prices);
-
     return this.productRepository.save(product);
   }
 
@@ -114,6 +111,7 @@ export class ProductService {
     params: DeepPartial<ProductEntity>,
   ) {
     const product = await this.productRepository.findOne({ where });
+    product.slug = `${slugify(product.title, { lower: true })}-${product.id}`;
     Object.assign(product, params);
     return this.productRepository.save(product);
   }
