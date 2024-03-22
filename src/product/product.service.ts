@@ -18,12 +18,7 @@ export class ProductService {
     private readonly utilService: UtilService,
   ) {}
 
-  findAll(
-    where: FindOptionsWhere<ProductEntity>,
-    pure: boolean = false,
-    page: number = 1,
-    take: number = 10,
-  ) {
+  findAll(where: FindOptionsWhere<ProductEntity>, pure: boolean = false) {
     return this.productRepository.find({
       where,
       relations: pure
@@ -37,8 +32,6 @@ export class ProductService {
               parameters: true,
             },
           },
-      skip: (page - 1) * take,
-      take,
     });
   }
 

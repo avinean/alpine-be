@@ -34,7 +34,7 @@ export class ProductController {
       .flat()
       .filter((c) => typeof c === 'number')
       .map(Number);
-    console.log(categoriesSlugs, categoriesIds);
+
     return this.productService.findAll(
       {
         category: [
