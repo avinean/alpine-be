@@ -34,7 +34,4 @@ export class ColorEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @OneToMany(() => PriceEntity, (price) => price.color)
-  prices: PriceEntity[];
 }

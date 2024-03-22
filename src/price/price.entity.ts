@@ -2,7 +2,6 @@ import { ColorEntity } from 'src/color/color.entity';
 import { ParameterEntity } from 'src/parameter/parameter.entity';
 import { ProductEntity } from 'src/product/product.entity';
 import {
-  AfterRemove,
   Column,
   Entity,
   JoinTable,
@@ -19,8 +18,12 @@ export class PriceEntity {
   @Column({ type: 'float', nullable: true })
   price: number;
 
-  @ManyToOne(() => ColorEntity, (color) => color.prices)
+  @ManyToOne(() => ColorEntity)
   color: ColorEntity;
+
+  @ManyToMany(() => ColorEntity)
+  @JoinTable()
+  colors: ColorEntity[];
 
   @ManyToMany(() => ParameterEntity)
   @JoinTable()

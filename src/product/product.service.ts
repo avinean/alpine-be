@@ -29,6 +29,7 @@ export class ProductService {
             applications: true,
             prices: {
               color: true,
+              colors: true,
               parameters: true,
             },
           },
@@ -57,7 +58,7 @@ export class ProductService {
       where,
       relations: {
         prices: {
-          color: true,
+          colors: true,
           parameters: true,
         },
       },
@@ -67,7 +68,7 @@ export class ProductService {
 
     return {
       colors: prices
-        ?.map((price) => price.color)
+        ?.flatMap((price) => price.colors)
         .reduce((acc, _) => {
           if (acc.find((color) => color?.id === _?.id)) return acc;
           return [...acc, _];
@@ -89,7 +90,7 @@ export class ProductService {
         brand: true,
         applications: true,
         prices: {
-          color: true,
+          colors: true,
           parameters: true,
         },
       },

@@ -69,7 +69,7 @@ export class ProductController {
         ],
         status: statuses?.length ? In(statuses) : undefined,
         prices: {
-          color: {
+          colors: {
             slug: colors?.length ? In(colors) : undefined,
           },
           parameters: {
