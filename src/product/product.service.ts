@@ -18,22 +18,31 @@ export class ProductService {
     private readonly utilService: UtilService,
   ) {}
 
-  findAll(where: FindOptionsWhere<ProductEntity>, pure: boolean = false) {
-    return this.productRepository.find({
+  async findAll(
+    where: FindOptionsWhere<ProductEntity>,
+    page: number = 1,
+    take: number = 10,
+  ) {
+    const [items, total] = await this.productRepository.findAndCount({
       where,
-      relations: pure
-        ? {}
-        : {
-            category: true,
-            brand: true,
-            applications: true,
-            prices: {
-              color: true,
-              colors: true,
-              parameters: true,
-            },
-          },
+      relations: {
+        category: true,
+        brand: true,
+        applications: true,
+        prices: {
+          color: true,
+          colors: true,
+          parameters: true,
+        },
+      },
+      skip: (page - 1) * take,
+      take,
     });
+
+    return {
+      items,
+      pages: Math.ceil(total / take),
+    };
   }
 
   async findAllByPage(

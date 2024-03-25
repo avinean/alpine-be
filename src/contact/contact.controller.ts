@@ -11,8 +11,8 @@ export class ContactController {
 
   @Public()
   @Get()
-  findAll(@Query('statuses') _statuses: []) {
-    const statuses = [_statuses].flat().filter(Boolean);
+  findAll(@Query('statuses') _statuses: string = '') {
+    const statuses = _statuses.split(',').filter(Boolean);
     return this.contactService.findAll({
       status: statuses?.length ? In(statuses) : undefined,
     });

@@ -8,7 +8,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { DeepPartial, In } from 'typeorm';
+import { DeepPartial, In, Like } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { ProductService } from './product.service';
 import { Public } from 'src/decorators/public.decorator';
@@ -21,29 +21,32 @@ export class ProductController {
   @Public()
   @Get()
   findAll(
-    @Query('categories') _categories: (number | string)[],
-    @Query('statuses') _statuses: [],
-    @Query('pure') pure: boolean,
+    @Query('categorySlugs') _categoriesSlugs: string = '',
+    @Query('categoryIds') _categoriesIds: string = '',
+    @Query('statuses') _statuses: string = '',
+    @Query('title') _title: string = '',
+    @Query('page') page: number,
+    @Query('take') take: number,
   ) {
-    const statuses = [_statuses].flat().filter(Boolean);
-    const categoriesSlugs = [_categories]
-      .flat()
-      .filter((c) => typeof c === 'string')
+    const statuses = _statuses.split(',').filter(Boolean);
+    const categoriesSlugs = _categoriesSlugs
+      .split(',')
+      .filter(Boolean)
       .map(String);
-    const categoriesIds = [_categories]
-      .flat()
-      .filter((c) => typeof c === 'number')
-      .map(Number);
+    const categoriesIds = _categoriesIds.split(',').filter(Boolean).map(Number);
+    const title = _title ? Like(`%${_title}%`) : undefined;
 
     return this.productService.findAll(
       {
+        title,
         category: [
           ...(categoriesIds?.length ? [{ id: In(categoriesIds) }] : []),
           ...(categoriesSlugs?.length ? [{ slug: In(categoriesSlugs) }] : []),
         ],
         status: statuses?.length ? In(statuses) : undefined,
       },
-      pure,
+      page,
+      take
     );
   }
 
