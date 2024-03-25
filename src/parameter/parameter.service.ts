@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ParameterEntity } from './parameter.entity';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import slugify from 'slugify';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -56,5 +56,9 @@ export class ParameterService {
 
   async update(id: number, dto: DeepPartial<ParameterEntity>) {
     return this.parameterRepository.update(id, dto);
+  }
+
+  async delete(where: FindOptionsWhere<ParameterEntity>) {
+    return this.parameterRepository.delete(where);
   }
 }

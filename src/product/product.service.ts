@@ -74,20 +74,29 @@ export class ProductService {
     });
 
     const prices = products.flatMap(({ prices }) => prices);
+    const colors = prices
+      ?.flatMap((price) => price.colors)
+      .reduce((acc, _) => {
+        if (acc.find((color) => color?.id === _?.id)) return acc;
+        return [...acc, _];
+      }, [] as ColorEntity[]);
+
+    const parameters: Record<string, ParameterEntity[]> = {};
+    prices
+      ?.flatMap((price) => price.parameters)
+      .reduce(
+        (acc, _) =>
+          acc.find((parameter) => parameter?.id === _?.id) ? acc : [...acc, _],
+        [] as ParameterEntity[],
+      )
+      .forEach((parameter) => {
+        if (!parameters[parameter.type]) parameters[parameter.type] = [];
+        parameters[parameter.type].push(parameter);
+      });
 
     return {
-      colors: prices
-        ?.flatMap((price) => price.colors)
-        .reduce((acc, _) => {
-          if (acc.find((color) => color?.id === _?.id)) return acc;
-          return [...acc, _];
-        }, [] as ColorEntity[]),
-      parameters: prices
-        ?.flatMap((price) => price.parameters)
-        .reduce((acc, _) => {
-          if (acc.find((parameter) => parameter?.id === _?.id)) return acc;
-          return [...acc, _];
-        }, [] as ParameterEntity[]),
+      colors,
+      parameters,
     };
   }
 

@@ -28,4 +28,10 @@ export class ParameterController {
   @Put(':id')
   update(@Param('id') id: number, @Body() dto: DeepPartial<ColorEntity>) {
     return this.parameterService.update(id, dto);
-  }}
+  }
+
+  @Post('delete/:id')
+  delete(@Param('id') id: number) {
+    return this.parameterService.delete({ id });
+  }
+}
