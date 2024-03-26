@@ -148,10 +148,6 @@ export class ProductService {
   async delete(where: FindOptionsWhere<ProductEntity>) {
     const product = await this.productRepository.findOne({ where });
     this.priceRepository.delete({ product });
-    try {
-      this.utilService.delete(product.image);
-    } finally {
-      return this.productRepository.delete(where);
-    }
+    return this.productRepository.delete(where);
   }
 }

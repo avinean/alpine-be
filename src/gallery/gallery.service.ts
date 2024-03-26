@@ -12,43 +12,7 @@ export class GalleryService {
     @InjectRepository(GalleryEntity)
     private readonly galleryRepository: Repository<GalleryEntity>,
     private readonly productService: ProductService,
-  ) {
-    this.migrate();
-  }
-
-  async migrate() {
-    const products = await this.productService.findAll({});
-
-    products.items.forEach(async (product) => {
-      const galleryItem = await this.galleryRepository.findOne({
-        where: {
-          image: product.image,
-        },
-      });
-      if (!galleryItem) {
-        const item = await this.galleryRepository.save(
-          this.galleryRepository.create({
-            title: product.title,
-            image: product.image,
-            slug: slugify(product.title, { lower: true }),
-            products: [product],
-          }),
-        );
-        item.products = [product];
-        await this.galleryRepository.save(item);
-
-        this.productService.update(
-          {
-            id: product.id,
-          },
-          {
-            images: [item],
-            primaryImage: item,
-          },
-        );
-      }
-    });
-  }
+  ) {}
 
   findAll() {
     return this.galleryRepository.find({

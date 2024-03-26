@@ -13,7 +13,6 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -40,9 +39,6 @@ export class ProductEntity {
 
   @Column({ nullable: true })
   standart: string;
-
-  @Column({ nullable: true })
-  image: string;
 
   @Column({ nullable: true })
   tags: string;
