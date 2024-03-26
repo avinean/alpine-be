@@ -21,6 +21,7 @@ export class ProductController {
   @Public()
   @Get()
   findAll(
+    @Query('brands') _brands: string = '',
     @Query('categorySlugs') _categoriesSlugs: string = '',
     @Query('categoryIds') _categoriesIds: string = '',
     @Query('statuses') _statuses: string = '',
@@ -28,6 +29,7 @@ export class ProductController {
     @Query('page') page: number,
     @Query('take') take: number,
   ) {
+    const brands = _brands.split(',').filter(Boolean).map(Number);
     const statuses = _statuses.split(',').filter(Boolean);
     const categoriesSlugs = _categoriesSlugs
       .split(',')
@@ -39,6 +41,7 @@ export class ProductController {
     return this.productService.findAll(
       {
         title,
+        brand: brands.length ? { id: In(brands) } : undefined,
         category: [
           ...(categoriesIds?.length ? [{ id: In(categoriesIds) }] : []),
           ...(categoriesSlugs?.length ? [{ slug: In(categoriesSlugs) }] : []),
@@ -46,7 +49,7 @@ export class ProductController {
         status: statuses?.length ? In(statuses) : undefined,
       },
       page,
-      take
+      take,
     );
   }
 
