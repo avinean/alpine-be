@@ -1,18 +1,19 @@
 import { ApplicationEntity } from 'src/application/application.entity';
 import { BrandEntity } from 'src/brand/brand.entity';
 import { CategoryEntity } from 'src/category/category.entity';
-import { ColorEntity } from 'src/color/color.entity';
-import { ParameterEntity } from 'src/parameter/parameter.entity';
+import { GalleryEntity } from 'src/gallery/gallery.entity';
 import { PriceEntity } from 'src/price/price.entity';
 import { VisibilityStatus } from 'src/types/enums';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -73,4 +74,12 @@ export class ProductEntity {
     cascade: true,
   })
   prices: PriceEntity[];
+
+  @ManyToMany(() => GalleryEntity)
+  @JoinTable()
+  images: GalleryEntity[];
+
+  @ManyToOne(() => GalleryEntity)
+  @JoinColumn()
+  primaryImage: GalleryEntity;
 }

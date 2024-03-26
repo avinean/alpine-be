@@ -10,6 +10,7 @@ import { UtilModule } from 'src/util/util.module';
 @Module({
   providers: [ProductService],
   controllers: [ProductController],
+  exports: [ProductService],
   imports: [
     TypeOrmModule.forFeature([ProductEntity, PriceEntity]),
     PriceModule,

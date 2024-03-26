@@ -20,8 +20,8 @@ export class ProductService {
 
   async findAll(
     where: FindOptionsWhere<ProductEntity>,
-    page: number = 1,
-    take: number = 10,
+    page?: number,
+    take?: number,
   ) {
     const [items, total] = await this.productRepository.findAndCount({
       where,
@@ -29,13 +29,15 @@ export class ProductService {
         category: true,
         brand: true,
         applications: true,
+        images: true,
+        primaryImage: true,
         prices: {
           color: true,
           colors: true,
           parameters: true,
         },
       },
-      skip: (page - 1) * take,
+      skip: take ? (page - 1) * take : undefined,
       take,
     });
 
@@ -52,6 +54,9 @@ export class ProductService {
   ) {
     const [items, total] = await this.productRepository.findAndCount({
       where,
+      relations: {
+        primaryImage: true,
+      },
       skip: (page - 1) * take,
       take,
     });
@@ -111,6 +116,8 @@ export class ProductService {
           colors: true,
           parameters: true,
         },
+        images: true,
+        primaryImage: true,
       },
     });
   }
