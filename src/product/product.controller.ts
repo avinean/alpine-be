@@ -46,7 +46,8 @@ export class ProductController {
 
   @Public()
   @Get('page')
-  findAllByPage(
+  async findAllByPage(
+    @Query('brands') _brands: string[],
     @Query('categories') _categories: string[],
     @Query('statuses') _statuses: string[],
     @Query('colors') _colors: string[],
@@ -54,13 +55,15 @@ export class ProductController {
     @Query('page') page: number,
     @Query('take') take: number,
   ) {
+    const brands = [_brands].flat().filter(Boolean).map(String);
     const statuses = [_statuses].flat().filter(Boolean);
     const categoriesSlugs = [_categories].flat().filter(Boolean).map(String);
     const colors = [_colors].flat().filter(Boolean).map(String);
     const parameters = [_parameters].flat().filter(Boolean).map(String);
-    console.log(colors);
+
     return this.productService.findAllByPage(
       {
+        brand: brands.length ? { slug: In(brands) } : undefined,
         category: [
           ...(categoriesSlugs?.length ? [{ slug: In(categoriesSlugs) }] : []),
         ],
