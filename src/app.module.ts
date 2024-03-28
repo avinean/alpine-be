@@ -28,6 +28,8 @@ import { PriceModule } from './price/price.module';
 import { PriceEntity } from './price/price.entity';
 import { GalleryModule } from './gallery/gallery.module';
 import { GalleryEntity } from './gallery/gallery.entity';
+import { TelegramModule } from './telegram/telegram.module';
+import { TelegramEntity } from './telegram/telegram.entity';
 
 @Module({
   imports: [
@@ -51,6 +53,7 @@ import { GalleryEntity } from './gallery/gallery.entity';
         ServiceEntity,
         PriceEntity,
         GalleryEntity,
+        TelegramEntity,
       ],
       synchronize: true,
     }),
@@ -71,6 +74,7 @@ import { GalleryEntity } from './gallery/gallery.entity';
     ServiceModule,
     PriceModule,
     GalleryModule,
+    TelegramModule,
   ],
   controllers: [AppController],
   providers: [

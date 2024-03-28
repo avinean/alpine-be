@@ -1,4 +1,4 @@
-import { Controller, Put } from '@nestjs/common';
+import { Body, Controller, Put } from '@nestjs/common';
 import { Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
@@ -6,12 +6,20 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { promisify } from 'util';
 import * as fs from 'fs';
+import { TelegramMessage } from './dto';
+import { UtilService } from './util.service';
+import { TelegramService } from 'src/telegram/telegram.service';
 
 const unlinkAsync = promisify(fs.unlink);
 
 @ApiTags('Util')
 @Controller('util')
 export class UtilController {
+  constructor(
+    private readonly utilService: UtilService,
+    private readonly telegramService: TelegramService,
+  ) {}
+
   @Post('photo')
   @UseInterceptors(
     FileInterceptor('photo', {
@@ -64,5 +72,10 @@ export class UtilController {
   )
   async updateAvatar(@UploadedFile() file: Express.Multer.File) {
     return file.filename;
+  }
+
+  @Post('message')
+  async sendMessage(@Body() body: TelegramMessage) {
+    this.telegramService.message(body);
   }
 }
