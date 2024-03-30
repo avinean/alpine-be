@@ -4,38 +4,13 @@ import { GalleryEntity } from './gallery.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { ProductEntity } from 'src/product/product.entity';
 import slugify from 'slugify';
-import { ServiceService } from 'src/service/service.service';
 
 @Injectable()
 export class GalleryService {
   constructor(
     @InjectRepository(GalleryEntity)
     private readonly galleryRepository: Repository<GalleryEntity>,
-    private readonly serviceService: ServiceService,
-  ) {
-    this.migrate();
-  }
-
-  async migrate() {
-    const services = await this.serviceService.findAll({});
-
-    services.forEach(async (product) => {
-      const galleryItem = await this.galleryRepository.findOne({
-        where: {
-          image: product.image,
-        },
-      });
-      if (!galleryItem) {
-        await this.galleryRepository.save(
-          this.galleryRepository.create({
-            title: product.title,
-            image: product.image,
-            slug: slugify(product.title, { lower: true }),
-          }),
-        );
-      }
-    });
-  }
+  ) {}
 
   findAll() {
     return this.galleryRepository.find({
