@@ -30,6 +30,8 @@ import { GalleryModule } from './gallery/gallery.module';
 import { GalleryEntity } from './gallery/gallery.entity';
 import { TelegramModule } from './telegram/telegram.module';
 import { TelegramEntity } from './telegram/telegram.entity';
+import { CmsModule } from './cms/cms.module';
+import { CmsEntity } from './cms/cms.entity';
 
 @Module({
   imports: [
@@ -54,6 +56,7 @@ import { TelegramEntity } from './telegram/telegram.entity';
         PriceEntity,
         GalleryEntity,
         TelegramEntity,
+        CmsEntity,
       ],
       synchronize: true,
     }),
@@ -75,6 +78,7 @@ import { TelegramEntity } from './telegram/telegram.entity';
     PriceModule,
     GalleryModule,
     TelegramModule,
+    CmsModule,
   ],
   controllers: [AppController],
   providers: [
