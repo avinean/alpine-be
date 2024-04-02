@@ -11,10 +11,20 @@ export class BrandController {
 
   @Public()
   @Get()
-  findAll(@Query('statuses') _statuses: string = '') {
+  findAll(
+    @Query('statuses') _statuses: string = '',
+    @Query('categories') _categories: string = '',
+  ) {
     const statuses = _statuses.split(',').filter(Boolean);
+    const categories = _categories.split(',').filter(Boolean);
+
     return this.brandService.findAll({
       status: statuses?.length ? In(statuses) : undefined,
+      products: {
+        category: {
+          slug: categories?.length ? In(categories) : undefined,
+        },
+      },
     });
   }
 
