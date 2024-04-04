@@ -101,7 +101,10 @@ export class ProductService {
 
     return {
       colors,
-      parameters,
+      parameters: Object.entries(parameters).map(([label, items]) => ({
+        label,
+        items,
+      })),
     };
   }
 
