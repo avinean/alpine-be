@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CmsEntity } from './cms.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import slugify from 'slugify';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class CmsService {
@@ -23,7 +23,7 @@ export class CmsService {
     return this.cmsRepository.save(
       this.cmsRepository.create({
         ...data,
-        slug: slugify(data.title, { lower: true }),
+        slug: slugify(data.title),
       }),
     );
   }

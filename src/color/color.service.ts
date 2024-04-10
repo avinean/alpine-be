@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ColorEntity } from './color.entity';
 import { DeepPartial, Repository } from 'typeorm';
-import slugify from 'slugify';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class ColorService {
@@ -20,7 +20,7 @@ export class ColorService {
   async migrate() {
     const colors = await this.colorRepository.find();
     for (const color of colors) {
-      color.slug = `${slugify(color.title, { lower: true })}-${color.id}`;
+      color.slug = `${slugify(color.title)}-${color.id}`;
       await this.colorRepository.save(color);
     }
   }
@@ -29,11 +29,11 @@ export class ColorService {
     const color = await this.colorRepository.save(
       this.colorRepository.create({
         ...dto,
-        slug: slugify(dto.title, { lower: true }),
+        slug: slugify(dto.title),
       }),
     );
 
-    color.slug = `${slugify(dto.title, { lower: true })}-${color.id}`;
+    color.slug = `${slugify(dto.title)}-${color.id}`;
     return this.colorRepository.save(color);
   }
 

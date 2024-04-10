@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { GalleryEntity } from './gallery.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { ProductEntity } from 'src/product/product.entity';
-import slugify from 'slugify';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class GalleryService {
@@ -24,11 +24,11 @@ export class GalleryService {
     const product = await this.galleryRepository.save(
       this.galleryRepository.create({
         ...params,
-        slug: slugify(params.title, { lower: true }),
+        slug: slugify(params.title),
       }),
     );
 
-    product.slug = `${slugify(params.title, { lower: true })}-${product.id}`;
+    product.slug = `${slugify(params.title)}-${product.id}`;
     return this.galleryRepository.save(product);
   }
 
@@ -37,7 +37,7 @@ export class GalleryService {
     params: DeepPartial<ProductEntity>,
   ) {
     const galleryItem = await this.galleryRepository.findOne({ where });
-    galleryItem.slug = `${slugify(galleryItem.title, { lower: true })}-${galleryItem.id}`;
+    galleryItem.slug = `${slugify(galleryItem.title)}-${galleryItem.id}`;
     Object.assign(galleryItem, params);
     return this.galleryRepository.save(galleryItem);
   }

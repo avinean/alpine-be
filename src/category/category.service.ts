@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from './category.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import slugify from 'slugify';
 import { UtilService } from 'src/util/util.service';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class CategoryService {
@@ -29,7 +29,7 @@ export class CategoryService {
     return this.categoryRepository.save(
       this.categoryRepository.create({
         ...dto,
-        slug: slugify(dto.title, { lower: true }),
+        slug: slugify(dto.title),
       }),
     );
   }

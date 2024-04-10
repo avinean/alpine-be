@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BrandEntity } from './brand.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import slugify from 'slugify';
 import { UtilService } from 'src/util/util.service';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class BrandService {
@@ -21,7 +21,7 @@ export class BrandService {
     return this.brandRepository.save(
       this.brandRepository.create({
         ...dto,
-        slug: slugify(dto.title, { lower: true }),
+        slug: slugify(dto.title),
       }),
     );
   }

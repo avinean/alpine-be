@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ParameterEntity } from './parameter.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import slugify from 'slugify';
 import { InjectRepository } from '@nestjs/typeorm';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class ParameterService {
@@ -49,7 +49,7 @@ export class ParameterService {
     return this.parameterRepository.save(
       this.parameterRepository.create({
         ...dto,
-        slug: slugify([dto.type, dto.value].join('-'), { lower: true }),
+        slug: slugify([dto.type, dto.value].join('-')),
       }),
     );
   }

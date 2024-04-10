@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ProductEntity } from './product.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import slugify from 'slugify';
 import { PriceEntity } from 'src/price/price.entity';
 import { UtilService } from 'src/util/util.service';
 import { ColorEntity } from 'src/color/color.entity';
 import { ParameterEntity } from 'src/parameter/parameter.entity';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class ProductService {
@@ -129,11 +129,11 @@ export class ProductService {
     const product = await this.productRepository.save(
       this.productRepository.create({
         ...dto,
-        slug: slugify(dto.title, { lower: true }),
+        slug: slugify(dto.title),
       }),
     );
 
-    product.slug = `${slugify(dto.title, { lower: true })}-${product.id}`;
+    product.slug = `${slugify(dto.title)}-${product.id}`;
     product.prices = this.priceRepository.create(dto.prices);
     return this.productRepository.save(product);
   }
@@ -143,7 +143,7 @@ export class ProductService {
     params: DeepPartial<ProductEntity>,
   ) {
     const product = await this.productRepository.findOne({ where });
-    product.slug = `${slugify(product.title, { lower: true })}-${product.id}`;
+    product.slug = `${slugify(product.title)}-${product.id}`;
     Object.assign(product, params);
     return this.productRepository.save(product);
   }
