@@ -56,13 +56,22 @@ export class ProductService {
       where,
       relations: {
         primaryImage: true,
+        prices: true,
       },
       skip: (page - 1) * take,
       take,
     });
 
     return {
-      items,
+      items: items.map((item) => ({
+        ...item,
+        prices: [
+          item.prices.reduce(
+            (acc, cur) => (!acc ? cur : cur.price < acc.price ? cur : acc),
+            null,
+          ),
+        ],
+      })),
       pages: Math.ceil(total / take),
     };
   }
