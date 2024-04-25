@@ -30,6 +30,10 @@ import { TelegramModule } from './telegram/telegram.module';
 import { TelegramEntity } from './telegram/telegram.entity';
 import { CmsModule } from './cms/cms.module';
 import { CmsEntity } from './cms/cms.entity';
+import { PageModule } from './page/page.module';
+import { PageEntity } from './page/page.entity';
+import { NavigationEntity } from './navigation/navigation.entity';
+import { NavigationModule } from './navigation/navigation.module';
 
 @Module({
   imports: [
@@ -54,6 +58,8 @@ import { CmsEntity } from './cms/cms.entity';
         GalleryEntity,
         TelegramEntity,
         CmsEntity,
+        PageEntity,
+        NavigationEntity,
       ],
       synchronize: true,
     }),
@@ -75,6 +81,8 @@ import { CmsEntity } from './cms/cms.entity';
     GalleryModule,
     TelegramModule,
     CmsModule,
+    PageModule,
+    NavigationModule,
   ],
   controllers: [AppController],
   providers: [
