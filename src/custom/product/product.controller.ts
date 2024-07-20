@@ -83,6 +83,26 @@ export class ProductController {
   }
 
   @Public()
+  @Get('search')
+  async search(
+    @Query('search') search: string,
+    @Query('statuses') _statuses: string[],
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ) {
+    const statuses = [_statuses].flat().filter(Boolean);
+
+    return this.productService.findAllByPage(
+      {
+        title: Like(`%${search}%`),
+        status: statuses?.length ? In(statuses) : undefined,
+      },
+      page,
+      take,
+    );
+  }
+
+  @Public()
   @Get('filters')
   findAllFilters(@Query('categories') _categories: string[]) {
     const categoriesSlugs = [_categories].flat().filter(Boolean).map(String);
