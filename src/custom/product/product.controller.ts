@@ -94,7 +94,7 @@ export class ProductController {
 
     return this.productService.findAllByPage(
       {
-        title: Like(`%${search}%`),
+        tags: Like(`%${search}%`),
         status: statuses?.length ? In(statuses) : undefined,
       },
       page,

@@ -16,7 +16,19 @@ export class ProductService {
     @InjectRepository(PriceEntity)
     private readonly priceRepository: Repository<PriceEntity>,
     private readonly utilService: UtilService,
-  ) {}
+  ) {
+    this.setProductNameToTagsIfEmpty();
+  }
+
+  async setProductNameToTagsIfEmpty() {
+    const products = await this.productRepository.find();
+    products.forEach((product) => {
+      if (!product.tags) {
+        product.tags = product.title;
+        this.productRepository.save(product);
+      }
+    });
+  }
 
   async findAll(
     where: FindOptionsWhere<ProductEntity>,
